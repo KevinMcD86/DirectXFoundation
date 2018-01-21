@@ -129,6 +129,11 @@ StaticMeshVertexBuffer::StaticMeshVertexBuffer(const void* vertexData, const UIN
 
 	// Load data into CPU
 	ThrowIfFailed(D3DCreateBlob(BufferByteSize, &CPUBuffer));
+	ReloadCPU(vertexData);
+}
+
+void StaticMeshVertexBuffer::ReloadCPU(const void* vertexData)
+{
 	CopyMemory(CPUBuffer->GetBufferPointer(), vertexData, BufferByteSize);
 }
 
@@ -150,6 +155,11 @@ D3D12_VERTEX_BUFFER_VIEW StaticMeshVertexBuffer::VertexBufferView()const
 void StaticMeshVertexBuffer::DisposeUploader()
 {
 	UploaderBuffer = nullptr;
+}
+
+UINT StaticMeshVertexBuffer::GetBufferByteSize()
+{
+	return BufferByteSize;
 }
 
 StaticMeshIndexBuffer::StaticMeshIndexBuffer(const void* indexData, const UINT bufferByteSize, const DXGI_FORMAT indexFormat)

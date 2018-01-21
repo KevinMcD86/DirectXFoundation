@@ -163,9 +163,12 @@ public:
 	StaticMeshVertexBuffer() = default;
 	StaticMeshVertexBuffer(const void* vertexData, const UINT bufferByteSize, const UINT bufferByteStride);
 
+	void ReloadCPU(const void* vertexData);
 	void CopyToGPU(ID3D12Device* device, ID3D12GraphicsCommandList* cmdList);
 	D3D12_VERTEX_BUFFER_VIEW VertexBufferView()const;
 	void DisposeUploader();
+
+	UINT GetBufferByteSize();
 
 private:
 	Microsoft::WRL::ComPtr<ID3DBlob> CPUBuffer = nullptr;
@@ -216,60 +219,6 @@ struct StaticMeshGeometry
 		}
 		IndexBuffer.DisposeUploader();
 	}
-
-	/*Microsoft::WRL::ComPtr<ID3DBlob> IndexBufferCPU = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12Resource> IndexBufferGPU = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12Resource> IndexBufferUploader = nullptr;*/
-
-	// System memory copies.  Use Blobs because the vertex/index format can be generic.
-	// It is up to the client to cast appropriately.  
-	/*Microsoft::WRL::ComPtr<ID3DBlob> VertexBufferPosCPU = nullptr;
-	Microsoft::WRL::ComPtr<ID3DBlob> VertexBufferColorCPU = nullptr;
-	
-	Microsoft::WRL::ComPtr<ID3D12Resource> VertexBufferPosGPU = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12Resource> VertexBufferColorGPU = nullptr;
-	
-	Microsoft::WRL::ComPtr<ID3D12Resource> VertexBufferPosUploader = nullptr;
-	Microsoft::WRL::ComPtr<ID3D12Resource> VertexBufferColorUploader = nullptr;*/
-	
-
-	// Data about the buffers.
-	/*UINT VertexPosByteStride = 0;
-	UINT VertexBufferPosByteSize = 0;
-	UINT VertexColorByteStride = 0;
-	UINT VertexBufferColorByteSize = 0;*/
-	/*DXGI_FORMAT IndexFormat = DXGI_FORMAT_R16_UINT;
-	UINT IndexBufferByteSize = 0;*/
-
-	/*D3D12_VERTEX_BUFFER_VIEW VertexBufferPosView()const
-	{
-		D3D12_VERTEX_BUFFER_VIEW vbv;
-		vbv.BufferLocation = VertexBufferPosGPU->GetGPUVirtualAddress();
-		vbv.StrideInBytes = VertexPosByteStride;
-		vbv.SizeInBytes = VertexBufferPosByteSize;
-
-		return vbv;
-	}
-
-	D3D12_VERTEX_BUFFER_VIEW VertexBufferColorView()const
-	{
-		D3D12_VERTEX_BUFFER_VIEW vbv;
-		vbv.BufferLocation = VertexBufferColorGPU->GetGPUVirtualAddress();
-		vbv.StrideInBytes = VertexColorByteStride;
-		vbv.SizeInBytes = VertexBufferColorByteSize;
-
-		return vbv;
-	}*/
-
-	/*D3D12_INDEX_BUFFER_VIEW IndexBufferView()const
-	{
-		D3D12_INDEX_BUFFER_VIEW ibv;
-		ibv.BufferLocation = IndexBufferGPU->GetGPUVirtualAddress();
-		ibv.Format = IndexFormat;
-		ibv.SizeInBytes = IndexBufferByteSize;
-
-		return ibv;
-	}*/
 };
 
 struct Light
